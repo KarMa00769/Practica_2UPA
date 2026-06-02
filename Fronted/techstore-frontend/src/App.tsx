@@ -10,6 +10,33 @@ const API_URL = "http://localhost:3000/api/productos";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [productos, setProductos] = useState<Producto[]>([]);
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage.getItem('themeMode');
+      return saved === 'dark' ? 'dark' : 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    document.body.className = themeMode;
+    window.localStorage.setItem('themeMode', themeMode);
+  }, [themeMode]);
+
+  const toggleTheme = () => {
+    setThemeMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const themeToggleButton = (
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={toggleTheme}
+      title={themeMode === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
+    >
+      {themeMode === 'light' ? '🌙' : '☀️'}
+    </button>
+  );
 
   // Función equivalente a obtenerProductos() de tu app.js
   const obtenerProductos = async () => {
@@ -55,11 +82,14 @@ function App() {
 
   if (!isAuthenticated) {
     return (
-      <Login 
-        title="TechStore" 
-        subtitle="Ingresa a tu cuenta para administrar el inventario"
-        onSubmit={handleIniciarSesion} 
-      />
+      <>
+        {themeToggleButton}
+        <Login 
+          title="TechStore" 
+          subtitle="Ingresa a tu cuenta para administrar el inventario"
+          onSubmit={handleIniciarSesion} 
+        />
+      </>
     );
   }
 
@@ -67,10 +97,16 @@ function App() {
     <>
       {/* Conservamos el diseño semántico del index.html */}
       <header>
-        <h1>TechStore</h1>
-        <p>Sistema Web de Gestión de Productos (React + TS)</p>
+        <div className="header-content">
+          <div>
+            <h1>TechStore</h1>
+            <p>Sistema Web de Gestión de Productos (React + TS)</p>
+          </div>
+        </div>
       </header>
-
+      <button type="button" className="theme-toggle" onClick={toggleTheme} title={themeMode === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}>
+        {themeMode === 'light' ? '🌙' : '☀️'}
+      </button>
       <nav>
         <a href="#">Inicio</a>
         <a href="#productos">Productos</a>

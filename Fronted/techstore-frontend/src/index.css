@@ -10,6 +10,16 @@ body {
   color: #333;
 }
 
+body.light {
+  background: #f4f6f9;
+  color: #333;
+}
+
+body.dark {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
 header {
   background: #1e3a5f;
   color: white;
@@ -17,10 +27,18 @@ header {
   padding: 25px;
 }
 
+body.dark header {
+  background: #111827;
+}
+
 nav {
   background: #14263d;
   padding: 12px;
   text-align: center;
+}
+
+body.dark nav {
+  background: #111827;
 }
 
 nav a {
@@ -52,6 +70,12 @@ main {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+body.dark .hero,
+body.dark .card {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
 form {
   display: grid;
   gap: 12px;
@@ -76,6 +100,36 @@ button:hover {
   background: #2f5f91;
 }
 
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(30, 58, 95, 0.9);
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+body.dark .theme-toggle {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(148, 163, 184, 0.5);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -98,4 +152,8 @@ footer {
   background: #14263d;
   color: white;
   padding: 15px;
+}
+
+body.dark footer {
+  background: #111827;
 }
