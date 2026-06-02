@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: techstore_db
+    environment:
+      POSTGRES_DB: techstore
+      POSTGRES_USER: techstore_user
+      POSTGRES_PASSWORD: techstore_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build: ./Backend
+    container_name: techstore_backend
+    volumes:
+      # Sincroniza en tiempo real los cambios que hagas en el código
+      - ./Backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      # Credenciales para conectarse a la DB de Postgres
+      - POSTGRES_DB=techstore
+      - POSTGRES_USER=techstore_user
+      - POSTGRES_PASSWORD=techstore_password
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    depends_on:
+      - db
+    # Ignora los errores en desarrollo si manage.py no existe aún (para poder iniciar y crearlo desde dentro)
+    command: sh -c "python manage.py runserver 0.0.0.0:8000 || sleep infinity"
+    restart: unless-stopped
+
+  frontend:
+    build: ./Fronted/techstore-frontend
+    container_name: techstore_frontend
+    volumes:
+      # Sincroniza en tiempo real los cambios del frontend
+      - ./Fronted/techstore-frontend:/app
+      # Evita que se sobreescriban los módulos instalados en la imagen
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
