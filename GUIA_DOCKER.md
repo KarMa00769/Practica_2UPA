@@ -75,9 +75,18 @@ docker-compose restart backend
 - **Backend (API Django):** [http://localhost:8000](http://localhost:8000)
 - **Base de Datos (PostgreSQL):** `localhost:5432` (Con usuario: `techstore_user` y contraseña: `techstore_password`).
 
-### 5. Apagar Todo
-Cuando termines de trabajar y quieras apagar los servicios (sin perder tus datos de la base de datos), ejecuta:
+### 5. Apagar o Pausar Todo
+Cuando termines de trabajar, tienes dos opciones para detener los servicios:
 
+**Opción A: Pausar temporalmente (Recomendado para el día a día)**
+Solo detiene los contenedores sin destruirlos. Al volver a iniciar, todo arranca más rápido y exactamente como lo dejaste.
+```bash
+docker-compose stop
+```
+*(Para volver a iniciarlos, puedes usar `docker-compose start` o `docker-compose up -d`)*
+
+**Opción B: Apagar y limpiar**
+Detiene y destruye los contenedores y la red interna. **No pierdes tus datos de la base de datos** (gracias al volumen `postgres_data`), pero es un apagado más "profundo".
 ```bash
 docker-compose down
 ```

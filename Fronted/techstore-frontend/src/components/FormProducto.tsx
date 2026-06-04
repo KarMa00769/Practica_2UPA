@@ -1,21 +1,24 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, Button, Box, Typography, Paper } from '@mui/material';
+import { TextField, Button, Box, Typography, Paper, Autocomplete } from '@mui/material';
 import { productoSchema, type ProductoFormData } from '../types/producto';
 
 interface FormProductoProps {
   onProductoGuardado: () => void;
+  categoriasExistentes: string[];
 }
 
-export const FormProducto = ({ onProductoGuardado }: FormProductoProps) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<ProductoFormData>({
+export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormProductoProps) => {
+  const { register, handleSubmit, reset, control, formState: { errors, isSubmitting } } = useForm<ProductoFormData>({
     resolver: zodResolver(productoSchema),
+    defaultValues: {
+      categoria: ''
+    }
   });
 
   const onSubmit = async (data: ProductoFormData) => {
     try {
-      // La misma URL y lógica que tenías en tu app.js
-      await fetch("http://localhost:3000/api/productos", {
+      await fetch("http://localhost:8000/api/productos/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -48,13 +51,27 @@ export const FormProducto = ({ onProductoGuardado }: FormProductoProps) => {
           helperText={errors.nombre?.message}
         />
 
-        <TextField
-          label="Categoría"
-          variant="outlined"
-          fullWidth
-          {...register('categoria')}
-          error={!!errors.categoria}
-          helperText={errors.categoria?.message}
+        <Controller
+          name="categoria"
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <Autocomplete
+              freeSolo
+              options={categoriasExistentes}
+              value={value}
+              onInputChange={(_, newValue) => onChange(newValue)}
+              onChange={(_, newValue) => onChange(newValue)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Categoría"
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error?.message}
+                />
+              )}
+            />
+          )}
         />
 
         <TextField
@@ -75,6 +92,15 @@ export const FormProducto = ({ onProductoGuardado }: FormProductoProps) => {
           {...register('stock', { valueAsNumber: true })}
           error={!!errors.stock}
           helperText={errors.stock?.message}
+        />
+
+        <TextField
+          label="Proveedor"
+          variant="outlined"
+          fullWidth
+          {...register('proveedor')}
+          error={!!errors.proveedor}
+          helperText={errors.proveedor?.message}
         />
 
         <Button 
