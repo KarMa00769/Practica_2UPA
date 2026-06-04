@@ -45,8 +45,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             if (refreshRes.ok) {
               const newTokens = await refreshRes.json();
-              token = newTokens.access; // El nuevo token
-              localStorage.setItem('access_token', token);
+              const newAccessToken = String(newTokens.access); // El nuevo token
+              token = newAccessToken;
+              localStorage.setItem('access_token', newAccessToken);
               
               // Reintentamos obtener el perfil con el nuevo token
               res = await fetch('http://localhost:8000/api/auth/me', {

@@ -32,13 +32,13 @@ export const Dashboard = ({ productos }: DashboardProps) => {
       </Typography>
       
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Paper elevation={3} sx={{ p: 3, textAlign: 'center', borderRadius: 2, bgcolor: '#f5f7fa' }}>
             <Typography variant="subtitle1" color="textSecondary">Total Productos</Typography>
             <Typography variant="h4" sx={{ color: '#1e3a5f', fontWeight: 'bold' }}>{totalProductos}</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Paper elevation={3} sx={{ p: 3, textAlign: 'center', borderRadius: 2, bgcolor: '#f5f7fa' }}>
             <Typography variant="subtitle1" color="textSecondary">Valor del Inventario</Typography>
             <Typography variant="h4" sx={{ color: '#2e7d32', fontWeight: 'bold' }}>
@@ -46,7 +46,7 @@ export const Dashboard = ({ productos }: DashboardProps) => {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Paper elevation={3} sx={{ p: 3, textAlign: 'center', borderRadius: 2, bgcolor: '#fff0f0' }}>
             <Typography variant="subtitle1" color="error">Alertas (Stock Bajo &lt; 5)</Typography>
             <Typography variant="h4" color="error" sx={{ fontWeight: 'bold' }}>{productosStockBajo}</Typography>
