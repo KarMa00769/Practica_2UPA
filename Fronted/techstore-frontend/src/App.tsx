@@ -140,7 +140,7 @@ function App() {
   if (!user) {
     return (
       <Box sx={{ position: 'relative' }}>
-        <IconButton onClick={toggleTheme} sx={{ position: 'absolute', right: 16, top: 16, zIndex: 1000, color: 'white' }}>
+        <IconButton onClick={toggleTheme} sx={{ position: 'absolute', right: 16, top: 16, zIndex: 1000, color: 'var(--text-body)' }}>
           {themeMode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
         <Login title="TechStore" subtitle="Ingresa a tu cuenta para administrar el inventario" onSubmit={login} />
@@ -150,18 +150,46 @@ function App() {
 
   const currentDrawerWidth = desktopOpen ? drawerWidth : collapsedDrawerWidth;
 
-  const drawer = (
+  const getDrawer = (isExpanded: boolean) => (
     <div>
-      <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: desktopOpen ? 'flex-start' : 'center', px: desktopOpen ? 2 : 1 }}>
-        {desktopOpen ? (
-          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: '#1e3a5f' }}>
-            TechStore
-          </Typography>
-        ) : (
-          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: '#1e3a5f' }}>
-            TS
-          </Typography>
-        )}
+      <Toolbar disableGutters sx={{ display: 'flex', alignItems: 'center', justifyContent: isExpanded ? 'flex-start' : 'center', px: isExpanded ? 2 : 0.5 }}>
+        <Typography 
+          variant="h6" 
+          noWrap 
+          component="div" 
+          sx={{ 
+            fontWeight: 'bold', 
+            color: 'var(--text-nav)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isExpanded ? 'flex-start' : 'center',
+            width: '100%',
+            overflow: 'hidden'
+          }}
+        >
+          <span>T</span>
+          <span style={{ 
+            display: 'inline-block',
+            maxWidth: isExpanded ? '50px' : '0px', 
+            opacity: isExpanded ? 1 : 0, 
+            overflow: 'hidden', 
+            transition: 'max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}>
+            ech
+          </span>
+          <span>S</span>
+          <span style={{ 
+            display: 'inline-block',
+            maxWidth: isExpanded ? '50px' : '0px', 
+            opacity: isExpanded ? 1 : 0, 
+            overflow: 'hidden', 
+            transition: 'max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}>
+            tore
+          </span>
+        </Typography>
       </Toolbar>
       <Divider />
       <List>
@@ -169,36 +197,36 @@ function App() {
           <ListItemButton 
             onClick={() => { setCurrentView('dashboard'); setMobileOpen(false); }} 
             selected={currentView === 'dashboard'}
-            sx={{ minHeight: 48, justifyContent: desktopOpen ? 'initial' : 'center', px: 2.5 }}
+            sx={{ minHeight: 48, justifyContent: isExpanded ? 'initial' : 'center', px: 2.5 }}
           >
-            <ListItemIcon sx={{ minWidth: 0, mr: desktopOpen ? 3 : 'auto', justifyContent: 'center' }}>
+            <ListItemIcon sx={{ minWidth: 0, mr: isExpanded ? 3 : 'auto', justifyContent: 'center' }}>
               <DashboardIcon />
             </ListItemIcon>
-            {desktopOpen && <ListItemText primary="Resumen" />}
+            {isExpanded && <ListItemText primary="Resumen" />}
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton 
             onClick={() => { setCurrentView('inventario'); setMobileOpen(false); }} 
             selected={currentView === 'inventario'}
-            sx={{ minHeight: 48, justifyContent: desktopOpen ? 'initial' : 'center', px: 2.5 }}
+            sx={{ minHeight: 48, justifyContent: isExpanded ? 'initial' : 'center', px: 2.5 }}
           >
-            <ListItemIcon sx={{ minWidth: 0, mr: desktopOpen ? 3 : 'auto', justifyContent: 'center' }}>
+            <ListItemIcon sx={{ minWidth: 0, mr: isExpanded ? 3 : 'auto', justifyContent: 'center' }}>
               <InventoryIcon />
             </ListItemIcon>
-            {desktopOpen && <ListItemText primary="Inventario" />}
+            {isExpanded && <ListItemText primary="Inventario" />}
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton 
             onClick={() => { setCurrentView('registro'); setMobileOpen(false); }} 
             selected={currentView === 'registro'}
-            sx={{ minHeight: 48, justifyContent: desktopOpen ? 'initial' : 'center', px: 2.5 }}
+            sx={{ minHeight: 48, justifyContent: isExpanded ? 'initial' : 'center', px: 2.5 }}
           >
-            <ListItemIcon sx={{ minWidth: 0, mr: desktopOpen ? 3 : 'auto', justifyContent: 'center' }}>
+            <ListItemIcon sx={{ minWidth: 0, mr: isExpanded ? 3 : 'auto', justifyContent: 'center' }}>
               <AddCircleIcon />
             </ListItemIcon>
-            {desktopOpen && <ListItemText primary="Registrar Producto" />}
+            {isExpanded && <ListItemText primary="Registrar Producto" />}
           </ListItemButton>
         </ListItem>
       </List>
@@ -206,7 +234,7 @@ function App() {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: themeMode === 'light' ? '#f5f7fa' : '#121212' }}>
+    <Box className="app-container" sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'var(--bg-body)', transition: 'background-color 0.3s ease, color 0.3s ease' }}>
       <CssBaseline />
       
       {/* AppBar (Mobile / Header) */}
@@ -215,8 +243,9 @@ function App() {
         sx={{ 
           width: { sm: `calc(100% - ${currentDrawerWidth}px)` }, 
           ml: { sm: `${currentDrawerWidth}px` }, 
-          bgcolor: '#1e3a5f',
-          transition: 'width 0.3s, margin 0.3s' 
+          bgcolor: 'var(--bg-header)',
+          color: 'var(--text-header)',
+          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
         }}
       >
         <Toolbar>
@@ -245,15 +274,38 @@ function App() {
       </AppBar>
 
       {/* Sidebar Drawer */}
-      <Box component="nav" sx={{ width: { sm: currentDrawerWidth }, flexShrink: { sm: 0 }, transition: 'width 0.3s' }}>
+      <Box component="nav" sx={{ width: { sm: currentDrawerWidth }, flexShrink: { sm: 0 }, transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }}>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{ keepMounted: true }}
-          sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
+          sx={{ 
+            display: { xs: 'block', sm: 'none' }, 
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth,
+              bgcolor: 'var(--bg-nav)',
+              color: 'var(--text-nav)',
+              '& .MuiListItemIcon-root': {
+                color: 'var(--text-nav)',
+              },
+              '& .MuiListItemText-primary': {
+                color: 'var(--text-nav)',
+              },
+              '& .MuiListItemButton-root.Mui-selected': {
+                bgcolor: 'var(--bg-nav-selected)',
+                '&:hover': {
+                  bgcolor: 'var(--bg-nav-selected)',
+                }
+              },
+              '& .MuiListItemButton-root:hover': {
+                bgcolor: 'var(--bg-nav-hover)',
+              }
+            } 
+          }}
         >
-          {drawer}
+          {getDrawer(true)}
         </Drawer>
         <Drawer
           variant="permanent"
@@ -262,19 +314,35 @@ function App() {
             '& .MuiDrawer-paper': { 
               boxSizing: 'border-box', 
               width: currentDrawerWidth, 
-              bgcolor: themeMode === 'dark' ? '#1e1e1e' : '#fff',
-              transition: 'width 0.3s',
-              overflowX: 'hidden'
+              bgcolor: 'var(--bg-nav)',
+              color: 'var(--text-nav)',
+              transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important',
+              overflowX: 'hidden',
+              '& .MuiListItemIcon-root': {
+                color: 'var(--text-nav)',
+              },
+              '& .MuiListItemText-primary': {
+                color: 'var(--text-nav)',
+              },
+              '& .MuiListItemButton-root.Mui-selected': {
+                bgcolor: 'var(--bg-nav-selected)',
+                '&:hover': {
+                  bgcolor: 'var(--bg-nav-selected)',
+                }
+              },
+              '& .MuiListItemButton-root:hover': {
+                bgcolor: 'var(--bg-nav-hover)',
+              }
             } 
           }}
           open
         >
-          {drawer}
+          {getDrawer(desktopOpen)}
         </Drawer>
       </Box>
 
       {/* Main Content Area */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${currentDrawerWidth}px)` }, color: themeMode === 'dark' ? '#fff' : '#000', transition: 'width 0.3s' }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, color: 'var(--text-body)', overflow: 'hidden' }}>
         <Toolbar /> {/* Spacer for AppBar */}
         
         {currentView === 'dashboard' && (
@@ -294,7 +362,7 @@ function App() {
         )}
 
         {currentView === 'inventario' && (
-          <Box sx={{ bgcolor: themeMode === 'light' ? '#fff' : '#1e1e1e', p: 3, borderRadius: 2, boxShadow: 3 }}>
+          <Box sx={{ bgcolor: 'var(--bg-card)', p: 3, borderRadius: 2, boxShadow: 3, color: 'var(--text-body)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
               <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Lista de Productos</Typography>
               
@@ -305,24 +373,36 @@ function App() {
                   size="small"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  sx={{ minWidth: 250, bgcolor: themeMode === 'dark' ? '#333' : '#fff', borderRadius: 1 }}
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon color="action" />
-                        </InputAdornment>
-                      ),
+                  sx={{ 
+                    minWidth: 250, 
+                    bgcolor: 'var(--bg-body)', 
+                    borderRadius: 1,
+                    '& .MuiOutlinedInput-root': {
+                      color: 'var(--text-body)',
+                      '& fieldset': { borderColor: 'var(--border-table)' },
+                      '&:hover fieldset': { borderColor: 'var(--btn-primary-hover)' },
                     },
+                    '& .MuiInputLabel-root': { color: 'var(--text-body)', opacity: 0.8 }
                   }}
                 />
                 
-                <FormControl size="small" sx={{ minWidth: 200, bgcolor: themeMode === 'dark' ? '#333' : '#fff', borderRadius: 1 }}>
-                  <InputLabel>Categoría</InputLabel>
+                <FormControl size="small" sx={{ 
+                  minWidth: 200, 
+                  bgcolor: 'var(--bg-body)', 
+                  borderRadius: 1,
+                  '& .MuiOutlinedInput-root': {
+                    color: 'var(--text-body)',
+                    '& fieldset': { borderColor: 'var(--border-table)' },
+                    '&:hover fieldset': { borderColor: 'var(--btn-primary-hover)' },
+                  },
+                  '& .MuiInputLabel-root': { color: 'var(--text-body)', opacity: 0.8 }
+                }}>
+                  <InputLabel sx={{ color: 'var(--text-body)' }}>Categoría</InputLabel>
                   <Select
                     value={filterCategoria}
                     label="Categoría"
                     onChange={(e) => setFilterCategoria(e.target.value)}
+                    sx={{ color: 'var(--text-body)' }}
                   >
                     {categoriasUnicas.map(cat => (
                       <MenuItem key={cat} value={cat}>{cat}</MenuItem>
@@ -330,7 +410,7 @@ function App() {
                   </Select>
                 </FormControl>
 
-                <Button variant="contained" onClick={obtenerProductos} sx={{ bgcolor: '#1e3a5f', height: 40 }}>
+                <Button variant="contained" onClick={obtenerProductos} sx={{ bgcolor: 'var(--btn-primary)', height: 40, '&:hover': { bgcolor: 'var(--btn-primary-hover)' } }}>
                   Actualizar Datos
                 </Button>
               </Box>
@@ -356,18 +436,18 @@ function App() {
             </div>
 
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', color: themeMode === 'dark' ? '#fff' : '#000' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', color: 'var(--text-body)' }}>
                 <thead>
-                  <tr style={{ backgroundColor: themeMode === 'light' ? '#f0f0f0' : '#333', textAlign: 'left' }}>
-                    <th style={{ padding: 12 }}>ID</th>
-                    <th style={{ padding: 12 }}>Nombre</th>
-                    <th style={{ padding: 12 }}>Categoría</th>
-                    <th style={{ padding: 12 }}>Precio</th>
-                    <th style={{ padding: 12 }}>Stock</th>
-                    <th style={{ padding: 12 }}>Proveedor</th>
-                    <th style={{ padding: 12 }}>Fecha Reg.</th>
-                    <th style={{ padding: 12 }}>Estado</th>
-                    <th style={{ padding: 12 }}>Acción</th>
+                  <tr style={{ backgroundColor: 'var(--bg-th)', color: 'var(--text-th)', textAlign: 'left' }}>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>ID</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Nombre</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Categoría</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Precio</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Stock</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Proveedor</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Fecha Reg.</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Estado</th>
+                    <th style={{ padding: 12, color: 'var(--text-th)' }}>Acción</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -377,7 +457,7 @@ function App() {
                     </tr>
                   ) : (
                     productosFiltrados.map((producto) => (
-                      <tr key={producto.id} style={{ borderBottom: `1px solid ${themeMode === 'light' ? '#ddd' : '#444'}` }}>
+                      <tr key={producto.id} style={{ borderBottom: '1px solid var(--border-table)', color: 'var(--text-body)' }}>
                         <td style={{ padding: 12 }}>{producto.id}</td>
                         <td style={{ padding: 12 }}>{producto.nombre}</td>
                         <td style={{ padding: 12 }}>{producto.categoria}</td>

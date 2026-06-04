@@ -15,14 +15,37 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
     resolver: zodResolver(loginSchema),
   });
 
+  const textFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+      backgroundColor: 'var(--bg-body)',
+      color: 'var(--text-body)',
+      '& fieldset': {
+        borderColor: 'var(--border-table)',
+      },
+      '&:hover fieldset': {
+        borderColor: 'var(--btn-primary-hover)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'var(--btn-primary)',
+      }
+    },
+    '& .MuiInputLabel-root': {
+      color: 'var(--text-body)',
+      opacity: 0.8,
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'var(--btn-primary)',
+    },
+  };
+
   return (
     <Container component="main" maxWidth="xs" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <Paper elevation={6} sx={{ padding: 5, borderRadius: 3, width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+      <Paper elevation={6} sx={{ padding: 5, borderRadius: 3, width: '100%', backgroundColor: 'var(--bg-card)', color: 'var(--text-body)', backdropFilter: 'blur(10px)' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
-          <Typography component="h1" variant="h4" sx={{ color: '#1e3a5f', fontWeight: 'bold', mb: 1 }}>
+          <Typography component="h1" variant="h4" sx={{ color: 'var(--text-body)', fontWeight: 'bold', mb: 1 }}>
             {title}
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{ color: 'var(--text-body)', opacity: 0.8 }}>
             {subtitle}
           </Typography>
         </Box>
@@ -38,6 +61,7 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
             {...register('email')}
             error={!!errors.email}
             helperText={errors.email?.message}
+            sx={textFieldStyles}
           />
 
           <TextField
@@ -49,6 +73,7 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
             {...register('password')}
             error={!!errors.password}
             helperText={errors.password?.message}
+            sx={textFieldStyles}
           />
 
           <Button 
@@ -59,16 +84,16 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
             sx={{ 
               mt: 2, 
               mb: 2, 
-              backgroundColor: '#1e3a5f', 
+              backgroundColor: 'var(--btn-primary)', 
               padding: '12px', 
               fontSize: '1rem',
               fontWeight: 'bold',
               textTransform: 'none',
               borderRadius: 2,
-              boxShadow: '0 4px 14px 0 rgba(30, 58, 95, 0.39)',
+              boxShadow: '0 4px 14px 0 rgba(141, 106, 59, 0.39)',
               '&:hover': { 
-                backgroundColor: '#2f5f91',
-                boxShadow: '0 6px 20px rgba(30, 58, 95, 0.23)'
+                backgroundColor: 'var(--btn-primary-hover)',
+                boxShadow: '0 6px 20px rgba(141, 106, 59, 0.23)'
               } 
             }}
           >

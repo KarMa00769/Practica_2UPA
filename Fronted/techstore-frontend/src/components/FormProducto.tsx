@@ -35,9 +35,32 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
     }
   };
 
+  const textFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+      backgroundColor: 'var(--bg-body)',
+      color: 'var(--text-body)',
+      '& fieldset': {
+        borderColor: 'var(--border-table)',
+      },
+      '&:hover fieldset': {
+        borderColor: 'var(--btn-primary-hover)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'var(--btn-primary)',
+      }
+    },
+    '& .MuiInputLabel-root': {
+      color: 'var(--text-body)',
+      opacity: 0.8,
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'var(--btn-primary)',
+    },
+  };
+
   return (
-    <Paper elevation={3} sx={{ padding: 4, marginBottom: 4, borderRadius: 2 }}>
-      <Typography variant="h5" component="h2" sx={{ mb: 3, color: '#1e3a5f', fontWeight: 'bold' }}>
+    <Paper elevation={3} sx={{ padding: 4, marginBottom: 4, borderRadius: 2, bgcolor: 'var(--bg-card)', color: 'var(--text-body)' }}>
+      <Typography variant="h5" component="h2" sx={{ mb: 3, color: 'var(--text-body)', fontWeight: 'bold' }}>
         Registrar Producto
       </Typography>
 
@@ -49,6 +72,7 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
           {...register('nombre')}
           error={!!errors.nombre}
           helperText={errors.nombre?.message}
+          sx={textFieldStyles}
         />
 
         <Controller
@@ -68,6 +92,7 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
                   variant="outlined"
                   error={!!error}
                   helperText={error?.message}
+                  sx={textFieldStyles}
                 />
               )}
             />
@@ -82,6 +107,7 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
           {...register('precio', { valueAsNumber: true })}
           error={!!errors.precio}
           helperText={errors.precio?.message}
+          sx={textFieldStyles}
         />
 
         <TextField
@@ -92,6 +118,7 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
           {...register('stock', { valueAsNumber: true })}
           error={!!errors.stock}
           helperText={errors.stock?.message}
+          sx={textFieldStyles}
         />
 
         <TextField
@@ -101,13 +128,14 @@ export const FormProducto = ({ onProductoGuardado, categoriasExistentes }: FormP
           {...register('proveedor')}
           error={!!errors.proveedor}
           helperText={errors.proveedor?.message}
+          sx={textFieldStyles}
         />
 
         <Button 
           type="submit" 
           variant="contained" 
           disabled={isSubmitting}
-          sx={{ backgroundColor: '#1e3a5f', padding: '12px', '&:hover': { backgroundColor: '#2f5f91' } }}
+          sx={{ backgroundColor: 'var(--btn-primary)', padding: '12px', '&:hover': { backgroundColor: 'var(--btn-primary-hover)' } }}
         >
           {isSubmitting ? 'Guardando...' : 'Guardar Producto'}
         </Button>

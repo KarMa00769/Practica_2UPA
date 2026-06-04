@@ -1,3 +1,41 @@
+:root {
+  /* Paleta Modo Claro - Opción B (Tostados Medios) */
+  --bg-body: #ece1d5;
+  --text-body: #362d26;
+  --bg-header: #b59d83;      /* Café con leche oscuro */
+  --text-header: #362d26;    /* Texto marrón oscuro */
+  --bg-nav: #c5ae96;         /* Tono arena tostado */
+  --text-nav: #362d26;       /* Texto marrón oscuro */
+  --bg-nav-selected: rgba(92, 71, 46, 0.15); /* Indicador de selección oscuro */
+  --bg-nav-hover: rgba(92, 71, 46, 0.08);    /* Hover oscuro */
+  --bg-card: #f5ede2;
+  --bg-hero: #e9dfd1;
+  --btn-primary: #8d6a3b;
+  --btn-primary-hover: #b59158;
+  --bg-th: #4f3d33;
+  --text-th: #f3eadc;
+  --border-table: #ddd;
+}
+
+body.dark {
+  /* Paleta Modo Oscuro */
+  --bg-body: #161513;
+  --text-body: #e4ddcf;
+  --bg-header: #2f2922;      /* Barra superior oscura en modo oscuro */
+  --text-header: #e4ddcf;    /* Texto claro en la barra superior oscura */
+  --bg-nav: #2c261f;         /* Barra lateral oscura en modo oscuro */
+  --text-nav: #e4ddcf;       /* Texto claro en la barra lateral oscura */
+  --bg-nav-selected: rgba(255, 255, 255, 0.1);
+  --bg-nav-hover: rgba(255, 255, 255, 0.05);
+  --bg-card: #2d2520;
+  --bg-hero: #2d2520;
+  --btn-primary: #8d6a3b;
+  --btn-primary-hover: #b59158;
+  --bg-th: #4f3d33;
+  --text-th: #f3eadc;
+  --border-table: #444;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,43 +44,31 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  color: #333;
+  background: var(--bg-body);
+  color: var(--text-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.light {
-  background: #f4f6f9;
-  color: #333;
-}
-
-body.dark {
-  background: #0f172a;
-  color: #e2e8f0;
+/* Transición suave para todos los contenedores visuales principales */
+.app-container, header, nav, main, section, .MuiPaper-root, .MuiAppBar-root, .MuiDrawer-paper, table, th, td, button, input {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 header {
-  background: #1e3a5f;
-  color: white;
+  background: var(--bg-header);
+  color: var(--text-header);
   text-align: center;
   padding: 25px;
 }
 
-body.dark header {
-  background: #111827;
-}
-
 nav {
-  background: #14263d;
+  background: var(--bg-nav);
   padding: 12px;
   text-align: center;
 }
 
-body.dark nav {
-  background: #111827;
-}
-
 nav a {
-  color: white;
+  color: var(--text-nav);
   margin: 0 15px;
   text-decoration: none;
   font-weight: bold;
@@ -55,7 +81,7 @@ main {
 }
 
 .hero {
-  background: white;
+  background: var(--bg-hero);
   padding: 30px;
   text-align: center;
   border-radius: 10px;
@@ -63,17 +89,11 @@ main {
 }
 
 .card {
-  background: white;
+  background: var(--bg-card);
   padding: 25px;
   margin-bottom: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-body.dark .hero,
-body.dark .card {
-  background: #1f2937;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 form {
@@ -89,7 +109,7 @@ input {
 
 button {
   padding: 12px;
-  background: #1e3a5f;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -97,7 +117,7 @@ button {
 }
 
 button:hover {
-  background: #2f5f91;
+  background: var(--btn-primary-hover);
 }
 
 .theme-toggle {
@@ -109,8 +129,8 @@ button:hover {
   min-width: 50px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(30, 58, 95, 0.9);
+  border: 1px solid rgba(255, 231, 193, 0.45);
+  background: rgba(122, 92, 54, 0.95);
   color: white;
   font-size: 1.2rem;
   display: flex;
@@ -126,8 +146,8 @@ button:hover {
 }
 
 body.dark .theme-toggle {
-  background: rgba(15, 23, 42, 0.95);
-  border-color: rgba(148, 163, 184, 0.5);
+  background: rgba(102, 82, 52, 0.95);
+  border-color: rgba(228, 221, 207, 0.45);
 }
 
 table {
@@ -137,23 +157,19 @@ table {
 }
 
 th {
-  background: #1e3a5f;
-  color: white;
+  background: var(--bg-th);
+  color: var(--text-th);
 }
 
 th, td {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-table);
   text-align: center;
 }
 
 footer {
   text-align: center;
-  background: #14263d;
-  color: white;
+  background: var(--bg-header);
+  color: var(--text-header);
   padding: 15px;
-}
-
-body.dark footer {
-  background: #111827;
 }
