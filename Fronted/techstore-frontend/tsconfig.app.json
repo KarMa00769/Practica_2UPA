@@ -1,25 +1,28 @@
 {
+  // Archivo: tsconfig.app.json
+  // Este es el "Manual de Reglas" principal de TypeScript para NUESTRO CÓDIGO de React.
+  // Evita que cometamos errores tontos antes de que la página corra.
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "es2023",
-    "lib": ["ES2023", "DOM"],
+    "target": "es2023", // Nuestro código se convertirá en JavaScript moderno del 2023.
+    "lib": ["ES2023", "DOM"], // Le decimos que vamos a interactuar con pantallas y ventanas del navegador (DOM).
     "module": "esnext",
-    "types": ["vite/client"],
-    "skipLibCheck": true,
+    "types": ["vite/client"], // Para que entienda cosas mágicas que hace Vite.
+    "skipLibCheck": true,     // No revises el código de otras personas, solo el nuestro.
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    /* Bundler mode (El Empaquetador) */
+    "moduleResolution": "bundler", // Agrupa los archivos como lo haría un experto empacador.
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "noEmit": true,     // Solo revisa errores, Vite se encarga de empaquetar de verdad.
+    "jsx": "react-jsx", // Le decimos a TypeScript: "Oye, voy a escribir HTML mezclado con código (JSX), no te asustes".
 
-    /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    /* Linting (Reglas Estrictas de Limpieza) */
+    "noUnusedLocals": true,       // Si olvidas usar una variable, ¡Error!
+    "noUnusedParameters": true,   // Si una función pide algo y no lo usas, ¡Error!
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"] // Este manual aplica a ABSOLUTAMENTE TODO dentro de la carpeta "src".
 }

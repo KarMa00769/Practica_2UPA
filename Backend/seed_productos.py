@@ -1,12 +1,20 @@
+# Archivo: seed_productos.py
+# Imagina que esto es un "Llenador Automático de Estantes".
+# Si la tienda está vacía, este programa mete productos falsos (de prueba)
+# para que no tengamos que escribirlos uno por uno a mano.
+
 import os
 import django
 from django.utils import timezone
 
+# Le decimos a Python dónde buscar las reglas de nuestro proyecto
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
+django.setup() # Arrancamos los motores de Django
 
+# Traemos el "Molde" de los productos
 from productos.models import Producto
 
+# Esta es nuestra lista gigante de "productos de mentira"
 productos_data = [
     {"nombre": "Laptop HP 15", "categoria": "Electrónica", "precio": 14500.00, "stock": 8, "proveedor": "HP México"},
     {"nombre": "Laptop Lenovo IdeaPad", "categoria": "Electrónica", "precio": 13200.00, "stock": 6, "proveedor": "Lenovo México"},
@@ -60,7 +68,9 @@ productos_data = [
     {"nombre": "Mini PC Intel NUC", "categoria": "Electrónica", "precio": 8900.00, "stock": 4, "proveedor": "Intel"}
 ]
 
+# Función principal
 def poblar_db():
+    # Si la base de datos ya tiene cosas, las tiramos a la basura para empezar limpios.
     if Producto.objects.count() > 0:
         print("La base de datos ya tiene productos. Borrando para recargar...")
         Producto.objects.all().delete()
@@ -68,8 +78,11 @@ def poblar_db():
     print(f"Insertando {len(productos_data)} productos...")
     
     productos_creados = []
-    fecha = timezone.now()
+    fecha = timezone.now() # Vemos la hora actual
+    
+    # Recorremos la lista gigante
     for item in productos_data:
+        # Usamos el molde para hacer un producto nuevo
         prod = Producto(
             nombre=item['nombre'],
             categoria=item['categoria'],
@@ -79,10 +92,12 @@ def poblar_db():
             estado='Activo',
             fechaRegistro=fecha
         )
-        productos_creados.append(prod)
+        productos_creados.append(prod) # Lo metemos a una caja temporal
         
+    # Guardamos toda la caja de golpe en la base de datos (es más rápido así)
     Producto.objects.bulk_create(productos_creados)
     print("¡Base de datos poblada exitosamente con los nuevos campos!")
 
+# Si ejecutamos este archivo directamente, arrancamos la función
 if __name__ == '__main__':
     poblar_db()

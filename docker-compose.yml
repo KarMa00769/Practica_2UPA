@@ -1,55 +1,73 @@
-version: '3.8'
+# Archivo: docker-compose.yml
+# Imagina que Docker Compose es el "Director de Orquesta".
+# Este archivo le dice al director qué músicos (contenedores) tocarán, 
+# qué instrumentos usarán (puertos/variables) y cómo deben comunicarse entre ellos.
+
+version: '3.8' # La versión del "manual de instrucciones" que el director debe leer.
 
 services:
+  # --- Músico 1: La Base de Datos (PostgreSQL) ---
   db:
-    image: postgres:15-alpine
-    container_name: techstore_db
+    image: postgres:15-alpine # La plantilla o "disfraz" que usará este músico.
+    container_name: techstore_db # El nombre de su gafete.
     environment:
+      # Datos secretos para que solo nosotros podamos entrar a la base de datos.
       POSTGRES_DB: techstore
       POSTGRES_USER: techstore_user
       POSTGRES_PASSWORD: techstore_password
     ports:
+      # Abrimos la "puerta 5432" para que podamos ver los datos desde nuestra compu.
       - "5432:5432"
     volumes:
+      # ¡Muy importante! Guardamos los datos en un "disco duro externo" (postgres_data)
+      # para que si apagamos la compu, no se pierdan los productos.
       - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: unless-stopped # Si se tropieza y se cae, dile que se vuelva a levantar (a menos que lo apaguemos a propósito).
 
+  # --- Músico 2: El Servidor (Backend con Django) ---
   backend:
-    build: ./Backend
+    build: ./Backend # Le decimos: "Ve a la carpeta Backend y lee el Dockerfile para crear tu propio traje".
     container_name: techstore_backend
     volumes:
-      # Sincroniza en tiempo real los cambios que hagas en el código
+      # Sincroniza mágicamente en tiempo real el código de nuestra compu con el contenedor.
+      # Así no tenemos que reiniciar todo cada vez que cambiamos una línea de código.
       - ./Backend:/app
     ports:
+      # Abrimos la "puerta 8000" para que podamos ver la API desde el navegador.
       - "8000:8000"
     environment:
-      # Credenciales para conectarse a la DB de Postgres
+      # Le pasamos al servidor un papelito con las contraseñas para que se pueda conectar al Músico 1 (db).
       - POSTGRES_DB=techstore
       - POSTGRES_USER=techstore_user
       - POSTGRES_PASSWORD=techstore_password
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=db # Le decimos: "El servidor de base de datos se llama 'db'".
       - POSTGRES_PORT=5432
     depends_on:
-      - db
-    # Ignora los errores en desarrollo si manage.py no existe aún (para poder iniciar y crearlo desde dentro)
+      - db # Regla: "No puedes empezar a tocar hasta que el Músico 1 (db) esté listo".
+    
+    # Comando de arranque. Si por alguna razón manage.py no existe, no explotes, solo quédate dormido (sleep infinity).
     command: sh -c "python manage.py runserver 0.0.0.0:8000 || sleep infinity"
     restart: unless-stopped
 
+  # --- Músico 3: La Página Web (Frontend con React) ---
   frontend:
-    build: ./Fronted/techstore-frontend
+    build: ./Fronted/techstore-frontend # Ve a la carpeta Fronted y usa ese Dockerfile.
     container_name: techstore_frontend
     volumes:
-      # Sincroniza en tiempo real los cambios del frontend
+      # Sincroniza nuestro código de React en tiempo real.
       - ./Fronted/techstore-frontend:/app
-      # Evita que se sobreescriban los módulos instalados en la imagen
+      # Protegemos la carpeta 'node_modules' del contenedor para que nuestra compu no la borre por accidente.
       - /app/node_modules
     ports:
+      # Abrimos la "puerta 5173" que es donde vive React por defecto.
       - "5173:5173"
     environment:
+      # Para que Vite se dé cuenta instantáneamente cuando guardamos un archivo en Windows/Mac.
       - CHOKIDAR_USEPOLLING=true
     depends_on:
-      - backend
+      - backend # Regla: "No puedes arrancar si el backend no está listo".
     restart: unless-stopped
 
+# Aquí declaramos oficialmente que existe el "disco duro externo" para la base de datos.
 volumes:
   postgres_data:

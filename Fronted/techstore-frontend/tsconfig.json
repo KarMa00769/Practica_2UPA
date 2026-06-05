@@ -1,7 +1,12 @@
 {
+  // Archivo: tsconfig.json
+  // Este es el "Índice del Manual de Reglas" principal de TypeScript.
+  // En vez de tener un solo manual gigante, aquí decimos:
+  // "Ve a leer el manual de la App y luego el manual de Node (el servidor local)".
+  
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.app.json" },  // Manual con reglas para nuestra página web.
+    { "path": "./tsconfig.node.json" }  // Manual con reglas para la compu local (vite).
   ]
 }

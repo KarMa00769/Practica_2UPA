@@ -1,13 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
+    <!-- 
+      Archivo: index.html
+      Esta es la "Página en Blanco" inicial.
+      Es el cascarón vacío donde Vite y React van a inyectar todo nuestro código (App.tsx).
+    -->
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Esto hace que la página se vea bien en celulares (Responsive) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>techstore-frontend</title>
+    <title>TechStore - Inventario</title>
   </head>
   <body>
+    <!-- ¡Aquí está la magia! Esta etiqueta 'div' con id 'root' (raíz) es la maceta 
+         donde React va a plantar y hacer crecer toda nuestra aplicación. -->
     <div id="root"></div>
+    <!-- Aquí llamamos a la semilla principal de React (main.tsx) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

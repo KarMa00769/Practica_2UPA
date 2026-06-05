@@ -1,3 +1,12 @@
+/*
+ * Archivo: App.css
+ * ¡Hola! Este archivo es basura vieja (código de ejemplo que venía con Vite).
+ * Ya no lo usamos porque toda nuestra página la pintamos con Material UI 
+ * y con las reglas de 'index.css'.
+ * Aún así lo dejamos por si algún componente antiguo intenta buscarlo.
+ */
+
+/* Este bloque servía para hacer un contador que cambiaba de color */
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -17,6 +26,7 @@
   }
 }
 
+/* Este bloque hacía girar en 3D los logos de Vite y React */
 .hero {
   position: relative;
 
@@ -56,6 +66,7 @@
   }
 }
 
+/* Y estos bloques acomodaban botones que venían de ejemplo */
 #center {
   display: flex;
   flex-direction: column;

@@ -65,39 +65,38 @@ Las funcionalidades identificadas fueron:
 ### 4.1 Arquitectura General del Sistema
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Docker Network                     │
-│                                                     │
-│  ┌──────────────┐     HTTP/JSON    ┌─────────────┐  │
-│  │   Frontend   │ ──────────────► │   Backend   │  │
-│  │ React + Vite │ ◄────────────── │   Django    │  │
-│  │  Port: 5173  │                 │  Port: 8000 │  │
-│  └──────────────┘                 └──────┬──────┘  │
-│                                          │          │
-│                                    SQL   │          │
-│                                          ▼          │
-│                                  ┌─────────────┐   │
-│                                  │  PostgreSQL  │   │
-│                                  │  Port: 5432  │   │
-│                                  └─────────────┘   │
-└─────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                       Docker Network                        |
+|                                                             |
+|  +-------------+   HTTP/JSON   +-------------+              |
+|  |  Frontend   | <-----------> |   Backend   |              |
+|  | React + Vite|               |   Django    |              |
+|  | Port: 5173  |               | Port: 8000  |              |
+|  +-------------+               +------+------+              |
+|                                         |                   |
+|                                         v                   |
+|                                   +-------------+           |
+|                                   | PostgreSQL  |           |
+|                                   | Port: 5432  |           |
+|                                   +-------------+           |
++-------------------------------------------------------------+
 ```
 
 ### 4.2 Modelo de Datos (Backend)
 
 ```
-┌──────────────────────────────────┐
-│           Producto               │
-├──────────────────────────────────┤
-│ id           : AutoField (PK)    │
-│ nombre       : CharField(200)    │
-│ precio       : DecimalField(10,2)│
-│ categoria    : CharField(100)    │
-│ stock        : IntegerField      │
-│ proveedor    : CharField(200)    │
-│ fechaRegistro: DateField         │
-│ estado       : CharField(50)     │
-└──────────────────────────────────┘
++--------------------------------------------+
+|                 Producto                   |
++--------------------------------------------+
+| id            : AutoField (PK)             |
+| nombre        : CharField(200)             |
+| precio        : DecimalField(10,2)         |
+| categoria     : CharField(100)             |
+| stock         : IntegerField                |
+| proveedor     : CharField(200)             |
+| fechaRegistro : DateField                  |
+| estado        : CharField(50)              |
++--------------------------------------------+
 ```
 
 ### 4.3 Endpoints de la API REST
@@ -124,14 +123,14 @@ Login (validado con Zod)
 AuthContext (estado global de sesión)
   │
   ▼
-App.tsx → fetch("http://localhost:8000/api/productos/")
+App.tsx
   │
-  ├── GET /api/productos/  →  Django ViewSet  →  PostgreSQL
-  │        ◄─── JSON con lista de productos ───┘
+  ├─ GET /api/productos/  → Django ViewSet → PostgreSQL
+  │      ← JSON lista de productos
   │
-  ├── POST /api/productos/ →  Serializer → Model.save() → DB
+  ├─ POST /api/productos/ → Serializer → Model.save() → DB
   │
-  └── DELETE /api/productos/{id}/ → QuerySet.delete() → DB
+  └─ DELETE /api/productos/{id}/ → QuerySet.delete() → DB
 ```
 
 ### 4.5 Estructura de Carpetas del Proyecto

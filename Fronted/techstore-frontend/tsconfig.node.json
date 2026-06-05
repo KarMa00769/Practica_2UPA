@@ -1,24 +1,27 @@
 {
+  // Archivo: tsconfig.node.json
+  // Este es el manual de reglas para los archivos que corren "detrás de escena"
+  // antes de que la página se publique (como vite.config.ts).
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "es2023",
+    "target": "es2023", // Traduce todo al JavaScript moderno del año 2023.
     "lib": ["ES2023"],
     "module": "esnext",
-    "types": ["node"],
-    "skipLibCheck": true,
+    "types": ["node"],  // Puede usar herramientas exclusivas de la computadora (Node).
+    "skipLibCheck": true, // Para no perder tiempo revisando código que hicieron otros (librerías).
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    /* Bundler mode (El Empaquetador) */
+    "moduleResolution": "bundler", // Busca archivos como lo hacen los empaquetadores modernos.
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "noEmit": true, // Solo revisa errores, no escupe nuevos archivos (de eso se encarga Vite).
 
-    /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    /* Linting (Limpieza y Reglas estrictas) */
+    "noUnusedLocals": true,       // Si creas una variable y no la usas, te regaña.
+    "noUnusedParameters": true,   // Si creas una función que pide datos y no los usas, te regaña.
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts"] // Este manual aplica SOLO a este archivo.
 }

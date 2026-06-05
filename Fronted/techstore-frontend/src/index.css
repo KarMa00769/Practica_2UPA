@@ -1,20 +1,25 @@
+/*
+ * Archivo: index.css
+ * Esta es nuestra "Paleta de Pinturas" general.
+ * Aquí definimos los colores básicos que usaremos en toda la aplicación.
+ */
 :root {
-  /* Paleta Modo Claro - Opción B (Tostados Medios) */
-  --bg-body: #ece1d5;
-  --text-body: #362d26;
-  --bg-header: #b59d83;      /* Café con leche oscuro */
-  --text-header: #362d26;    /* Texto marrón oscuro */
-  --bg-nav: #c5ae96;         /* Tono arena tostado */
-  --text-nav: #362d26;       /* Texto marrón oscuro */
-  --bg-nav-selected: rgba(92, 71, 46, 0.15); /* Indicador de selección oscuro */
-  --bg-nav-hover: rgba(92, 71, 46, 0.08);    /* Hover oscuro */
-  --bg-card: #f5ede2;
-  --bg-hero: #e9dfd1;
-  --btn-primary: #8d6a3b;
-  --btn-primary-hover: #b59158;
-  --bg-th: #4f3d33;
-  --text-th: #f3eadc;
-  --border-table: #ddd;
+  /* --- Paleta Modo Claro (Colores de Día) --- */
+  --bg-body: #ece1d5;             /* El fondo principal (como una hoja de papel vieja) */
+  --text-body: #362d26;           /* El color de las letras normales (Marrón muy oscuro) */
+  --bg-header: #b59d83;           /* El techo de la app (Café con leche oscuro) */
+  --text-header: #362d26;         /* Letras del techo */
+  --bg-nav: #c5ae96;              /* El menú lateral (Tono arena tostado) */
+  --text-nav: #362d26;            /* Letras del menú */
+  --bg-nav-selected: rgba(92, 71, 46, 0.15); /* Cuando seleccionas un botón, se pone de este color */
+  --bg-nav-hover: rgba(92, 71, 46, 0.08);    /* Cuando pasas el mouse por encima de un botón */
+  --bg-card: #f5ede2;             /* El fondo de las cajitas blancas/tarjetas */
+  --bg-hero: #e9dfd1;             /* Fondos de presentación */
+  --btn-primary: #8d6a3b;         /* Color de los botones (Dorado/Café) */
+  --btn-primary-hover: #b59158;   /* Color del botón cuando pasas el mouse */
+  --bg-th: #4f3d33;               /* Cabeceras de las tablas (Muy oscuro) */
+  --text-th: #f3eadc;             /* Letras de la tabla (Claras para resaltar en fondo oscuro) */
+  --border-table: #ddd;           /* Las rayitas de la tabla */
 }
 
 body.dark {
