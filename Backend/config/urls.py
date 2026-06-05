@@ -34,8 +34,8 @@ def get_user_profile(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/auth/me', get_user_profile, name='user_profile'),
+    path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/me/', get_user_profile, name='user_profile'),
     path('api/productos/', include('productos.urls')),
 ]

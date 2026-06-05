@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (token) {
         try {
-          let res = await fetch('http://localhost:8000/api/auth/me', {
+          let res = await fetch('http://localhost:8000/api/auth/me/', {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           
           // Si el Access Token expiró pero tenemos un Refresh Token, intentamos renovarlo
           if (res.status === 401 && refreshToken) {
-            const refreshRes = await fetch('http://localhost:8000/api/auth/refresh', {
+            const refreshRes = await fetch('http://localhost:8000/api/auth/refresh/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ refresh: refreshToken }),
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               localStorage.setItem('access_token', newAccessToken);
               
               // Reintentamos obtener el perfil con el nuevo token
-              res = await fetch('http://localhost:8000/api/auth/me', {
+              res = await fetch('http://localhost:8000/api/auth/me/', {
                 headers: { Authorization: `Bearer ${token}` }
               });
             }
@@ -75,12 +75,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (datos: LoginFormData) => {
     try {
-      const res = await fetch('http://localhost:8000/api/auth/login', {
+      const res = await fetch('http://localhost:8000/api/auth/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // En SimpleJWT por defecto se espera username y password. 
         // Si no has configurado el email como campo de inicio de sesión, debes pasar el email como username.
-        body: JSON.stringify({ username: datos.email, password: datos.password }),
+        body: JSON.stringify({ username: datos.email.trim(), password: datos.password.trim() }),
       });
 
       if (!res.ok) {
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('refresh_token', tokens.refresh);
 
       // Ahora que tenemos token, obtenemos el perfil del usuario
-      const meRes = await fetch('http://localhost:8000/api/auth/me', {
+      const meRes = await fetch('http://localhost:8000/api/auth/me/', {
         headers: {
           Authorization: `Bearer ${tokens.access}`
         }

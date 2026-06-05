@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, Button, Box, Typography, Paper, Container } from '@mui/material';
+import { TextField, Button, Box, Typography, Paper, Container, Alert } from '@mui/material';
 import { loginSchema } from '../types/login';
 import type { LoginFormData } from '../types/login';
 
@@ -11,9 +12,28 @@ interface LoginProps {
 }
 
 export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus credenciales", onSubmit }: LoginProps) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+
+  // Limpiar el mensaje de error si el usuario empieza a escribir
+  useEffect(() => {
+    const subscription = watch(() => {
+      if (errorMsg) setErrorMsg(null);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, errorMsg]);
+
+  const handleFormSubmit = async (datos: LoginFormData) => {
+    setErrorMsg(null);
+    try {
+      await onSubmit(datos);
+    } catch {
+      setErrorMsg('Credenciales inválidas. Verifica tu correo y contraseña.');
+    }
+  };
 
   const textFieldStyles = {
     '& .MuiOutlinedInput-root': {
@@ -50,7 +70,7 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
           </Typography>
         </Box>
 
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'grid', gap: 2.5 }}>
+        <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ display: 'grid', gap: 2.5 }}>
           <TextField
             label="Correo Electrónico"
             variant="outlined"
@@ -75,6 +95,12 @@ export const Login = ({ title = "Iniciar Sesión", subtitle = "Ingresa tus crede
             helperText={errors.password?.message}
             sx={textFieldStyles}
           />
+
+          {errorMsg && (
+            <Alert severity="error" sx={{ borderRadius: 2 }}>
+              {errorMsg}
+            </Alert>
+          )}
 
           <Button 
             type="submit" 

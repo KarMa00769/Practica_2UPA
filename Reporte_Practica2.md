@@ -176,7 +176,8 @@ Practica_2UPA/
 
 La pantalla de inicio de sesión tiene un diseño con efecto glassmorphism (fondo con blur). La validación del formulario está hecha con React Hook Form + Zod, así que si el usuario intenta enviar el formulario vacío, los errores aparecen en tiempo real sin recargar la página.
 
-*[Captura: Pantalla de login con fondo y formulario centrado]*
+![alt text](image.png)
+![alt text](image-1.png)
 
 ### 5.2 Dashboard — Panel de Control
 
@@ -187,7 +188,7 @@ Al autenticarse, la vista principal muestra tres KPIs calculados directamente de
 
 Debajo de los KPIs hay una gráfica de barras generada con Recharts que muestra la distribución de productos por categoría.
 
-*[Captura: Dashboard con KPIs y gráfica de barras por categoría]*
+![alt text](image-2.png)
 
 ### 5.3 Vista de Inventario con Filtros
 
@@ -197,25 +198,27 @@ La sección de inventario muestra la tabla completa de productos obtenidos del e
 - Exportar el listado actual a **Excel** (usando la librería `xlsx`) o **PDF** (usando `jsPDF` con `jspdf-autotable`).
 - Eliminar un producto directamente desde la fila.
 
-*[Captura: Vista de inventario con tabla, buscador y botones de exportación]*
+![alt text](image-3.png)
 
 ### 5.4 Formulario de Alta de Producto
 
 El formulario de registro de nuevo producto incluye validación de campos requeridos. Al guardar exitosamente, hace una petición `POST` al backend y redirige automáticamente a la vista de inventario actualizada.
 
-*[Captura: Formulario con campos de nombre, categoría, precio, stock y proveedor]*
+![alt text](image-4.png)
 
 ### 5.5 API REST en el Navegador
 
 Django REST Framework incluye un explorador web de la API accesible en `http://localhost:8000/api/productos/`, donde se pueden ver los datos en JSON y probar los endpoints directamente.
 
-*[Captura: Explorador web de DRF mostrando la lista de productos en JSON]*
+![alt text](image-5.png)
 
 ### 5.6 Modo Oscuro
 
 La aplicación tiene soporte completo de modo oscuro, persistido en `localStorage`. El cambio se puede hacer desde el botón en el AppBar y afecta todos los componentes incluyendo el sidebar, las tarjetas de KPIs y la tabla.
 
-*[Captura: Vista con tema oscuro activado]*
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
 
 ---
 
@@ -233,10 +236,10 @@ Descubrí que un `ModelViewSet` con su `DefaultRouter` genera los cinco endpoint
 Cuando el frontend (localhost:5173) intentó hablar con el backend (localhost:8000), el navegador bloqueó las peticiones por política de CORS. Hubo que instalar `django-cors-headers` y configurar los orígenes permitidos en el settings de Django. Es un concepto que ya conocía de nombre pero nunca lo había resuelto yo mismo.
 
 **Sobre Docker Compose:**  
-Entender el `docker-compose.yml` fue muy valioso. Ver cómo los servicios se referencian entre ellos por nombre (`db`, `backend`, `frontend`), cómo los volúmenes persisten los datos de PostgreSQL y cómo la opción `depends_on` controla el orden de arranque. Ahora tiene mucho más sentido cuando veo un `docker-compose.yml` en un repositorio real.
+Entender el `docker-compose.yml` fue bueno. Ver cómo los servicios se referencian entre ellos por nombre (`db`, `backend`, `frontend`), cómo los volúmenes persisten los datos de PostgreSQL y cómo la opción `depends_on` controla el orden de arranque. Ahora tiene mucho más sentido cuando veo un `docker-compose.yml` en un repositorio de verdad.
 
 **Sobre TypeScript en React:**  
-Tipar los props de los componentes y los datos que vienen de la API fue un poco más de trabajo al inicio, pero cuando en algún momento cambié algo en el tipo `Producto`, TypeScript me marcó de inmediato todos los lugares donde usaba ese tipo incorrectamente. Eso solo ya vale la pena.
+Tipar los props de los componentes y los datos que vienen de la API fue un poco más de trabajo al inicio, pero cuando en algún momento cambié algo en el tipo `Producto`, TypeScript me marcó de inmediato todos los lugares donde usaba ese tipo incorrectamente.
 
 ### Dificultades
 
@@ -254,27 +257,23 @@ Implementar un `AuthContext` con React Context API para que el login persista en
 
 ---
 
-## 7. Conclusiones Individuales
+## 7. Conclusiones
 
-Esta práctica me dejó con una visión mucho más completa de lo que significa construir una aplicación web real. No es solo hacer que se vea bien, ni solo que los datos se guarden; es que todas las capas funcionen juntas: la base de datos, la API, el frontend y la infraestructura.
+Esta práctica fue la primera vez que armo algo donde el frontend y el backend son proyectos completamente separados que se tienen que comunicar. Antes siempre había trabajado con todo junto, así que ver cómo una petición sale del navegador, llega a Django, consulta la base de datos y regresa como JSON fue algo que en papel ya sabía pero que se entiende diferente cuando lo ves funcionando de verdad.
 
-Lo que más me sorprendió fue la cantidad de decisiones técnicas que hay detrás de algo aparentemente simple como "mostrar una lista de productos". ¿Cómo se modela? ¿Qué campos expone la API? ¿Cómo se valida el formulario del lado del cliente? ¿Cómo se maneja el error si el servidor no responde? Cada una de esas preguntas tiene respuesta y aprenderlas en contexto, construyendo algo funcional, es muy distinto a solo leerlas.
+Lo que no esperaba fue lo mucho que influye la configuración en que todo funcione. El CORS, el host de la base de datos dentro de Docker, el orden en que arrancan los servicios... nada de eso es lógica de negocio, pero si está mal, nada corre. Esa parte me tomó más tiempo del que pensaba.
 
-Docker también fue un aprendizaje importante. Ahora entiendo por qué los equipos de desarrollo lo adoptan tan masivamente. La certeza de que "si corre aquí, corre en cualquier lado" es algo que agradeces más cuando lo experimentas que cuando solo lo escuchas.
-
-Me llevo como lección principal que la arquitectura cliente-servidor con API REST no es complicada en esencia, pero sí requiere atención a los detalles de configuración y comunicación entre capas. Y que herramientas como DRF, React y Docker existen precisamente para que el desarrollador se pueda enfocar en la lógica del negocio en lugar de reinventar la infraestructura.
+En general fue una práctica que valió la pena, sobre todo porque el resultado es algo que puedes levantar en cualquier computadora con un solo comando y funciona igual.
 
 ---
 
-## 8. Bibliografía
+### 8. Bibliografía
 
-- Django Software Foundation. (2024). *Django documentation*. https://docs.djangoproject.com/
-- Encode. (2024). *Django REST Framework documentation*. https://www.django-rest-framework.org/
-- Meta Open Source. (2024). *React documentation*. https://react.dev/
-- Material UI. (2024). *MUI documentation*. https://mui.com/material-ui/
-- Vite. (2024). *Vite documentation*. https://vite.dev/
-- Docker Inc. (2024). *Docker Compose documentation*. https://docs.docker.com/compose/
-- Fielding, R. T. (2000). *Architectural Styles and the Design of Network-based Software Architectures* (Doctoral dissertation, University of California, Irvine).
-- Recharts. (2024). *Recharts - A composable charting library built on React components*. https://recharts.org/
-- XLSX.js Contributors. (2024). *SheetJS Community Edition*. https://sheetjs.com/
-- jsPDF Contributors. (2024). *jsPDF - Client-side JavaScript PDF generation*. https://rawgit.com/MrRio/jsPDF/master/docs/
+- Django Software Foundation. (2024). Django documentation. https://docs.djangoproject.com/
+- Encode. (2024). Django REST Framework documentation. https://www.django-rest-framework.org/
+- Meta Open Source. (2024). React documentation. https://react.dev/
+- Material UI. (2024). MUI documentation. https://mui.com/material-ui/
+- Vite. (2024). Vite documentation. https://vite.dev/
+- Docker Inc. (2024). Docker Compose documentation. https://docs.docker.com/compose/
+- XLSX.js Contributors. (2024). SheetJS Community Edition. https://sheetjs.com/
+- jsPDF Contributors. (2024). jsPDF documentation. https://rawgit.com/MrRio/jsPDF/master/docs/
