@@ -1,8 +1,8 @@
-"""
+/*
 Archivo: vite.config.ts
 Vite es como el 'motor' rápido de nuestro coche (React).
 Aquí le decimos al motor que tiene que estar listo para entender código de React.
-"""
+*/
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
