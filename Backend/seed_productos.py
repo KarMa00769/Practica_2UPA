@@ -70,10 +70,10 @@ productos_data = [
 
 # Función principal
 def poblar_db():
-    # Si la base de datos ya tiene cosas, las tiramos a la basura para empezar limpios.
+    # Si la base de datos ya tiene cosas, simplemente saltamos la carga para no borrar los cambios que haya hecho el usuario.
     if Producto.objects.count() > 0:
-        print("La base de datos ya tiene productos. Borrando para recargar...")
-        Producto.objects.all().delete()
+        print("La base de datos ya tiene productos. Omitiendo la inserción inicial.")
+        return
         
     print(f"Insertando {len(productos_data)} productos...")
     
@@ -96,8 +96,20 @@ def poblar_db():
         
     # Guardamos toda la caja de golpe en la base de datos (es más rápido así)
     Producto.objects.bulk_create(productos_creados)
-    print("¡Base de datos poblada exitosamente con los nuevos campos!")
+    print("¡Base de datos de productos poblada exitosamente!")
 
-# Si ejecutamos este archivo directamente, arrancamos la función
+def poblar_usuarios():
+    from django.contrib.auth.models import User
+    email = "admin@techstore.com"
+    password = "techstore123"
+    
+    if not User.objects.filter(username=email).exists():
+        User.objects.create_superuser(username=email, email=email, password=password)
+        print(f"¡Superusuario '{email}' creado exitosamente!")
+    else:
+        print(f"El superusuario '{email}' ya existe. Omitiendo creación.")
+
+# Si ejecutamos este archivo directamente, arrancamos las funciones
 if __name__ == '__main__':
     poblar_db()
+    poblar_usuarios()

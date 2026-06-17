@@ -23,6 +23,12 @@ services:
       # para que si apagamos la compu, no se pierdan los productos.
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped # Si se tropieza y se cae, dile que se vuelva a levantar (a menos que lo apaguemos a propósito).
+    # Checamos si Postgres ya está listo para aceptar conexiones (no solo que el contenedor exista).
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U techstore_user -d techstore"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   # --- Músico 2: El Servidor (Backend con Django) ---
   backend:
@@ -43,10 +49,10 @@ services:
       - POSTGRES_HOST=db # Le decimos: "El servidor de base de datos se llama 'db'".
       - POSTGRES_PORT=5432
     depends_on:
-      - db # Regla: "No puedes empezar a tocar hasta que el Músico 1 (db) esté listo".
-    
-    # Comando de arranque. Si por alguna razón manage.py no existe, no explotes, solo quédate dormido (sleep infinity).
-    command: sh -c "python manage.py runserver 0.0.0.0:8000 || sleep infinity"
+      db:
+        condition: service_healthy # Espera a que el healthcheck de Postgres pase antes de arrancar.
+    # El entrypoint.sh ya se encarga de las migraciones, el seed y el servidor.
+    # No es necesario un 'command' extra aquí.
     restart: unless-stopped
 
   # --- Músico 3: La Página Web (Frontend con React) ---

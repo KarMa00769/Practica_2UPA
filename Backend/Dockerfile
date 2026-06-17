@@ -30,8 +30,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Paso 7: Copiamos TODO nuestro código del proyecto adentro de la carpeta /app.
 COPY . .
 
+# Paso 7b: Le damos permisos de ejecución al script de arranque.
+RUN chmod +x /app/entrypoint.sh
+
 # Paso 8: Le avisamos al mundo exterior: "¡Oigan, escuchen por el puerto 8000!".
 EXPOSE 8000
 
-# Paso 9: Este es el botón de encendido. Cuando la compu esté lista, arrancará automáticamente el servidor.
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Paso 9: Usamos nuestro script inteligente como punto de entrada.
+# Él sabe esperar a la base de datos, migrar y arrancar todo en orden.
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
